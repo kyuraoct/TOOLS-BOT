@@ -119,7 +119,7 @@ module.exports = kyura = async (kyura, m, chatUpdate, store) => {
 
 
 	switch(command) {
-	    case 'donasi': {
+		case 'donasi':case 'donate': {
                 kyura.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/af5c140fee9800a1a21a0.jpg' }, caption: `DONATE
 		DANA: [081998903280]`}, { quoted: m })
             }
@@ -331,38 +331,59 @@ module.exports = kyura = async (kyura, m, chatUpdate, store) => {
             }
             }
             break
+	   case 'sticker': case 's': case 'stickergif': case 'sgif': {
+            if (!quoted) throw `Balas Video/Image Dengan Caption ${prefix + command}`
+            m.reply(mess.wait)
+                    if (/image/.test(mime)) {
+                let media = await quoted.download()
+                let encmedia = await kyura.sendImageAsSticker(m.chat, media, m, { packname: pushname, author: `` })
+                await fs.unlinkSync(encmedia)
+            } else if (/video/.test(mime)) {
+                if ((quoted.msg || quoted).seconds > 11) return m.reply('Maksimal 10 detik!')
+                let media = await quoted.download()
+                let encmedia = await kyura.sendVideoAsSticker(m.chat, media, m, { packname: pushname, author: `` })
+                await fs.unlinkSync(encmedia)
+            } else {
+                throw `Kirim Gambar/Video Dengan Caption ${prefix + command}\nDurasi Video 1-9 Detik`
+                }
+            }
+            break
             case 'owner': case 'creator': {
                 kyura.sendContact(m.chat, global.owner, m)
             }
             break
 		case 'menu': case 'help': {
-                anu = '```' + `TOOLS_BOT.
+                anu = '```' + `*TOOLS_BOT.*
 		
-EXAMPLE : ${prefix}ytmp4 https://www.youtube.com/watch?v=RT8OWcZDRoc
+DOWNLOADER..
+${prefix}ytmp3 - UNDUH MP3 VIA URL YT.
+${prefix}ytmp4 - UNDUH VID LEWAT URL YT.
+${prefix}yts - PENCARIAN JUDUL DI YT.
+${prefix}play - UNDUH LAGU LEWAT JUDUL.
 
-${prefix}ytmp3 [url] - unduh mp3 lewat url YT.
-${prefix}ytmp4 [url] - unduh mp4 via url YT.
-${prefix}yts [query] - search pencarian YT.
-${prefix}play [query] - unduh lagu lewat judul.
+CTH. : ${prefix}ytmp4 https://www.youtube.com/watch?v=RT8OWcZDRoc
+${prefix}yts Sparkle Your Name
+       
+TOOLS..
+${prefix}toimg - UBAH STC > GAMBAR
+${prefix}tovideo - UBAH STC/GIF > VIDEO
+${prefix}togif - UBAH VID/STC > GIF
+${prefix}tourl - UPLOAD MEDIA > URL
+${prefix}tovn - UBAH VID/AUD > VN
+${prefix}tomp3 - UBAH VID > MP3
+${prefix}s - UBAH MEDIA > STICKER
+${prefix}gimage - CARI IMG DI GOOGLE
+${prefix}google - SEARCHING GOOGLE
 
-TOOLS
-${prefix}toimg - ubah stempel > gambar
-${prefix}tovideo - ubah stempel/GIF > video
-${prefix}togif - ubah video/stmpel > GIF
-${prefix}tourl - upload media ke url
-${prefix}tovn - ubah vid/aud > voice note
-${prefix}tomp3 - ubah vid > mp3
-
-INFO
-${prefix}owner - pemilik bot
-${prefix}speedtest - test download/upload bot` +'```'
+INFO..
+${prefix}speedtest - CEK DOWN/UP BOT` +'```'
                 let btn = [{
                                 quickReplyButton: {
                                     displayText: 'Donasi',
                                     id: 'donasi'
                                 }
                             }]
-                        kyura.send5ButImg(m.chat, anu, `TOOLS_BOT\nBY ARDHI`, global.thumb, btn)
+                        kyura.send5ButImg(m.chat, anu, `TOOLS_BOT@14^10^05\nBY ARDHI`, global.thumb, btn)
                      }
             break
             default:
