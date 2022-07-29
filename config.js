@@ -10,6 +10,7 @@ const chalk = require('chalk')
 // Website Api
 global.APIs = {
 	zenz: 'https://zenzapi.xyz',
+    anime: 'https://api.waifu.pics',
 }
 
 // Apikey Website Api
