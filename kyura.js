@@ -382,6 +382,13 @@ ${prefix}speedtest - test download/upload bot` +'```'
                         kyura.send5ButImg(m.chat, anu, `TOOLS_BOT\nBY ARDHI`, global.thumb, btn)
                      }
             break
+	    case 'hidetag': {
+            if (!m.isGroup) throw mess.group
+            if (!isBotAdmins) throw mess.botAdmin
+            if (!isAdmins) throw mess.admin
+            kyura.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
+            }
+            break
             default:
                 if (budy.startsWith('=>')) {
                     if (!isCreator) return m.reply(mess.owner)
