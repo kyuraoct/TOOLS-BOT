@@ -10,6 +10,7 @@ const os = require('os')
 const moment = require('moment-timezone')
 const { JSDOM } = require('jsdom')
 const { smsg, formatp, tanggal, formatDate, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom } = require('./lib/myfunc')
+let fetch = require('node-fetch')
 
 module.exports = kyura = async (kyura, m, chatUpdate, store) => {
     try {
@@ -382,7 +383,7 @@ ${prefix}speedtest - test download/upload bot` +'```'
                         kyura.send5ButImg(m.chat, anu, `TOOLS_BOT\nBY ARDHI`, global.thumb, btn)
                      }
             break
-	    case 'hidetag': {
+            case 'hidetag': {
             if (!m.isGroup) throw mess.group
             if (!isBotAdmins) throw mess.botAdmin
             if (!isAdmins) throw mess.admin
